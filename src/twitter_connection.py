@@ -18,9 +18,9 @@ class twitter_connection:
 
         api = tweepy.API(auth)
 
-        #public_tweets = tweepy.Cursor(api.home_timeline, tweet_mode='extended').items()
-        #for tweet in public_tweets:
-            #self.process_and_store(tweet_file, tweet)
+        public_tweets = tweepy.Cursor(api.home_timeline, tweet_mode='extended').items()
+        for tweet in public_tweets:
+            self.process_and_store(tweet_file, tweet)
         tweet_file.write("A line")
 
 
