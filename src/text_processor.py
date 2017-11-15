@@ -3,14 +3,14 @@ import nltk
 
 def get_stripped_text(file_name):
     file = codecs.open(file_name, 'r', 'utf8')
-    data = []
+    data = ""
     lines = file.readlines()
 
     for line in lines:
         tokens = line.split(':')
         if len(tokens) > 2:
             tweet = tokens[2].replace('https', '')
-            data.append(tweet)
+            data += tweet
 
     return data
 

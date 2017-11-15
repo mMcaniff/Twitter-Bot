@@ -10,7 +10,7 @@ class twitter_connection:
     ACCESS_TOKEN = '925067496473870343-0uOCFGL9zWURefYVl3HyA6Skie51yUa'
     ACCESS_SECRET = '8z4s87KJlGKbls7v8LqBQEyP9Xot4W86HSppP1dpOnu6c'
 
-    def __init__(self, pull_user_data, pull_news_data):
+    def __init__(self):
         history_file = codecs.open(fn.TEMP_FILE, 'a', "utf-8")
         news_file = codecs.open(fn.NEWS_FILE, 'a', 'utf-8')
 
