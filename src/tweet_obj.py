@@ -7,7 +7,7 @@ class tweet_obj:
 
     def __init__(self, tweet_json):
         self.id = tweet_json.id
-        self.text = tweet_json.full_text
+        self.text = tweet_json.text
         self.user = tweet_json.user.name
         self.timestamp = tweet_json.created_at
 

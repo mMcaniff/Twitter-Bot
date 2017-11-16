@@ -36,7 +36,7 @@ def main():
     if generate_tweet:
         print "Generated Tweet: ", tg.generate_tweet(starting_word, size)
 
-
+   
 
 if __name__ == "__main__":
     main()

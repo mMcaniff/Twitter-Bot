@@ -29,7 +29,7 @@ def generate(cfd, word, num):
             #print w, " ",
             arr.append(w)
 
-        random_word = arr[randint(0, len(arr) - 1)]
+        random_word = arr[randint(0, len(arr)-1)]
         output += random_word + " "
         word = random_word
         arr = []

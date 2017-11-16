@@ -12,18 +12,20 @@ class twitter_connection:
 
     def __init__(self):
         history_file = codecs.open(fn.TEMP_FILE, 'a', "utf-8")
-        news_file = codecs.open(fn.NEWS_FILE, 'a', 'utf-8')
 
         auth = OAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
         auth.set_access_token(self.ACCESS_TOKEN, self.ACCESS_SECRET)
 
         api = tweepy.API(auth)
-        public_tweets = tweepy.Cursor(api.home_timeline, tweet_mode='extended').items()
-        for tweet in public_tweets:
-            if tweet.user.name == "Barack Obama":
-                self.process_and_store(history_file, tweet)
-            else:
-                self.process_and_store(news_file, tweet)
+        n = 0
+        page_list = []
+        for page in tweepy.Cursor(api.user_timeline, screen_name='BarackObama', count=200).pages(16):
+            page_list.append(page)
+            n = n+1
+            print n
+        for page in page_list:
+           for tweet in page:
+               self.process_and_store(history_file, tweet)
 
 
     def process_and_store(self, file, tweet):
