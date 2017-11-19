@@ -1,4 +1,5 @@
 HISTORY_FILE = 'files/history.txt'
 NEWS_FILE = 'files/news.txt'
 TEMP_FILE = 'files/temp.txt'
-TRUMP = 'files/trump.txt'
+TRUMP_FILE = 'files/trump_full.txt'
+OBAMA_FILE = 'files/obama_full.txt'

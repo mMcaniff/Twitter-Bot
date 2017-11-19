@@ -10,8 +10,12 @@ class twitter_connection:
     ACCESS_TOKEN = '925067496473870343-0uOCFGL9zWURefYVl3HyA6Skie51yUa'
     ACCESS_SECRET = '8z4s87KJlGKbls7v8LqBQEyP9Xot4W86HSppP1dpOnu6c'
 
-    def __init__(self):
-        history_file = codecs.open(fn.TEMP_FILE, 'a', "utf-8")
+    def process_and_store(self, file, tweet):
+        _tweet = tweet_obj.tweet_obj(tweet)
+        file.write(_tweet.__str__())
+
+    def connect(self, user_name):
+        file = codecs.open("files/" + user_name + ".txt", 'a', "utf-8")
 
         auth = OAuthHandler(self.CONSUMER_KEY, self.CONSUMER_SECRET)
         auth.set_access_token(self.ACCESS_TOKEN, self.ACCESS_SECRET)
@@ -26,8 +30,3 @@ class twitter_connection:
         for page in page_list:
            for tweet in page:
                self.process_and_store(history_file, tweet)
-
-
-    def process_and_store(self, file, tweet):
-        _tweet = tweet_obj.tweet_obj(tweet)
-        file.write(_tweet.__str__())

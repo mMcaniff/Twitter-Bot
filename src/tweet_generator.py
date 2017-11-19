@@ -3,11 +3,15 @@ import text_processor as tp
 import file_names as fn
 from nltk import ngrams
 from random import randint
+import codecs
 
-def generate_tweet(starting_word = 'I', size = 10):
-    stripped_content = tp.get_stripped_text(fn.HISTORY_FILE)
+def generate_tweet(user_name, starting_word = 'I', size = 10):
+   
+    file = codecs.open("files/" + user_name + ".txt", 'r', 'utf8')
+    lines = file.readlines()
+    content = tp.get_formatted_file(user_name)
     tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+|[^\w\s]+')
-    tokens = tokenizer.tokenize(stripped_content)
+    tokens = tokenizer.tokenize(content)
 
     content_model = ngrams(tokens, 2)
 
