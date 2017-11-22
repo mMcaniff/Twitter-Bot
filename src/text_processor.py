@@ -7,20 +7,30 @@ import string
 def format_file(file_name):
     file = codecs.open(file_name, 'r')
     data = []
-    hashtags = []
+    mentions = [] # stores all mentions but doesn't do anything with
+    hashtags = [] # stores all hashtags but doesn't do anything with
     lines = file.readlines()
 
     for line in lines:
-        tokens = line.split(':')
-        tweet = tokens[2]
+        tokens = line.split(' &&& ')
+        if len(tokens) > 1:
+            tweet = tokens[1]
+        else:
+           tweet = tokens[0]
         if tweet.strip().startswith("RT"):
            continue
+        stripped_words = ''
+        words = tweet.split(' ')
+        for word in words:
+            if '&amp;' in word:
+               word = word.replace('&amp;', '&')
+            if not 'http' in word:
+               stripped_words += word + ' '
+            elif '\n' in word:
+               stripped_words += '\n'
+        mentions += re.findall(r'@(\w+ | \d+)', tweet)
         hashtags += re.findall(r"#(\w+)", tweet)
-        words = re.sub(r'\W+ | \s+', ' ', tweet)
-        #words = re.sub(r'[^\w]', '', words)
-        data.append(words)
-    for hash in hashtags:
-       data.append(hash)
+        data.append(stripped_words)
     return data
 
 def get_formatted_file(user_name):
@@ -29,9 +39,10 @@ def get_formatted_file(user_name):
     if not os.path.exists(file_name):
        notFormatted = True
        file_name = 'files/' + user_name + '.txt'
-    file = codecs.open(file_name, 'a', 'utf8')
+    file = codecs.open(file_name, 'a')
     lines = []
     if notFormatted:
+        print (file_name)
         lines = format_file(file_name)
         for line in lines:
           file.write(line)

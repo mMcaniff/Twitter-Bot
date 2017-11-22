@@ -41,7 +41,7 @@ def main():
        data = tp.format_file(file_name)
        file = codecs.open("files/" + user_name + "_formatted.txt", 'a')
        for line in data:
-          file.write(line + "\n")
+          file.write(line)
 
     if pull_user_data:
         tc.twitter_connection().connect(user_name)

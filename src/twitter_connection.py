@@ -23,10 +23,10 @@ class twitter_connection:
         api = tweepy.API(auth)
         n = 0
         page_list = []
-        for page in tweepy.Cursor(api.user_timeline, screen_name='BarackObama', count=200).pages(16):
+        for page in tweepy.Cursor(api.user_timeline, screen_name=user_name, include_rts=False, count=200).pages(16):
             page_list.append(page)
             n = n+1
             print n
         for page in page_list:
            for tweet in page:
-               self.process_and_store(history_file, tweet)
+               self.process_and_store(file, tweet)

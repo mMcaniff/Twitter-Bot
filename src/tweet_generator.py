@@ -7,8 +7,8 @@ import codecs
 
 def generate_tweet(user_name, starting_word = 'I', size = 10):
    
-    file = codecs.open("files/" + user_name + ".txt", 'r', 'utf8')
-    lines = file.readlines()
+    #file = codecs.open("files/" + user_name + ".txt", 'r', 'utf8')
+    #lines = file.readlines()
     content = tp.get_formatted_file(user_name)
     tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+|[^\w\s]+')
     tokens = tokenizer.tokenize(content)

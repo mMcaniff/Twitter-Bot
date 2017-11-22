@@ -13,7 +13,7 @@ class tweet_obj:
 
 
     def __str__(self):
-        return str(self.id) + " : " + self.user + " : " + self.text + " : " + str(self.timestamp) + "\n"
+        return str(self.id) + " : " + self.user + " : " + str(self.timestamp) + " &&& " + self.text + "\n"
 
 
     def create_tweet_from_str(self, str):
