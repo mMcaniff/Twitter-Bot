@@ -37,17 +37,17 @@ def get_formatted_file(user_name):
     file_name = 'files/' + user_name + '_formatted.txt'
     notFormatted = False
     if not os.path.exists(file_name):
-       notFormatted = True
-       file_name = 'files/' + user_name + '.txt'
+        notFormatted = True
+        file_name = 'files/' + user_name + '.txt'
     file = codecs.open(file_name, 'a')
     lines = []
     if notFormatted:
         print (file_name)
         lines = format_file(file_name)
         for line in lines:
-          file.write(line)
+            file.write(line)
     else:
-       lines = file.readlines()
+        lines = file.readlines()
     data = ""
     for line in lines:
        data += line

@@ -1,41 +1,73 @@
 import nltk
 import text_processor as tp
-import file_names as fn
+import random
 from nltk import ngrams
 from random import randint
-import codecs
 
-def generate_tweet(user_name, starting_word = 'I', size = 10):
-   
-    #file = codecs.open("files/" + user_name + ".txt", 'r', 'utf8')
-    #lines = file.readlines()
+numGrams = 3
+requirement = 2
+
+
+def generate_tweet(user_name, starting_word, size):
+    # Get content from username's file
     content = tp.get_formatted_file(user_name)
+
+    # Tokenize content
     tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+|[^\w\s]+')
     tokens = tokenizer.tokenize(content)
 
-    content_model = ngrams(tokens, 2)
+    # Get all sequences up to ngram size
+    sequences = get_sequences(tokens)
 
-    cfd = nltk.ConditionalFreqDist(content_model)
+    key = (starting_word, )
+    tweet = []
 
-    return generate(cfd, starting_word, size)
+    for i in range(size):
+        word = get_next_word(sequences, key)
+        key = get_next_key(key, word)
+        tweet.append(word)
+
+    print starting_word + ' ' + ' '.join(tweet)\
+        .replace(' .', '.')\
+        .replace(' ,', ',')\
+        .replace(" ' ", "'")\
+        .replace(' :', ':')\
+        .replace('# ', '#')\
+        .replace('@ ', "@")\
+        .replace(' !', '!')
 
 
-def read_history_file():
-    return
+def get_sequences(tokens):
+    grams = {}
+
+    for x in range(2, numGrams + 1):
+        dictionary = {}
+
+        for sequence in ngrams(tokens, x):
+            key = tuple(sequence[:-1])
+
+            if key in dictionary:
+                dictionary[key].append(sequence[x-1])
+            else:
+                dictionary[key] = [sequence[x-1]]
+
+        grams[x] = dictionary
+
+    return grams
 
 
-def generate(cfd, word, num):
-    output = word + " "
-    for i in range(num):
-        arr = []  # an array with the words
+def get_next_word(grams, key):
+    for i in range(len(key)):
+        if len(key) + 1 in grams and key in grams[len(key)+1]:
+            if len(grams[len(key)+1][key]) >= requirement:
+                return random.choice(grams[len(key)+1][key])
 
-        for w in cfd[word]:
-            #print w, " ",
-            arr.append(w)
+    # if the length requirement isn't met, shrink the key_id
+        if len(key) > 1:
+            key = key[1:]
 
-        random_word = arr[randint(0, len(arr)-1)]
-        output += random_word + " "
-        word = random_word
-        arr = []
+    return random.choice(grams[len(key)+1][key])
 
-    return output + "."
+
+def get_next_key(key, res):
+    return key + (res, )
