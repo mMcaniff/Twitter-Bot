@@ -3,6 +3,7 @@ import nltk
 import os
 import re
 import string 
+import spacy
 
 def format_file(file_name):
     file = codecs.open(file_name, 'r')
@@ -35,11 +36,12 @@ def format_file(file_name):
 
 def get_formatted_file(user_name):
     file_name = 'files/' + user_name + '_formatted.txt'
+    file = codecs.open(file_name, 'r')
     notFormatted = False
     if not os.path.exists(file_name):
         notFormatted = True
         file_name = 'files/' + user_name + '.txt'
-    file = codecs.open(file_name, 'r')
+        file = codecs.open(file_name, 'w')
     lines = []
     if notFormatted:
         print (file_name)
@@ -58,3 +60,23 @@ def get_most_common_words(user_name, limit):
 
     wordDists = nltk.FreqDist(w.lower() for w in data)
     return wordDists.most_common(limit)
+
+def getSubject():
+   subject = None
+   direct_object = None
+   nlp = spacy.load('en')
+   parsed_text=nlp(u'Step away from the cookie dough... The @US_FDA has warned against eating raw dough, due to risk of E. coli.')
+   #get token dependencies
+   for text in parsed_text:
+       #subject would be
+       if text.dep_ == "nsubj":
+           subject = text.orth_
+       #dobj for direct object
+       if text.dep_ == "dobj":
+           direct_object = text.orth_
+   
+   for nc in parsed_text.noun_chunks:
+       print("Noun chunk: " + str(nc.text))
+
+   print(subject)
+   print(direct_object)

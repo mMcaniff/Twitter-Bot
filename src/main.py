@@ -20,6 +20,7 @@ def main():
     # -word - The starting word
     # -size - Number of words in post
     #
+    tp.getSubject()
 
     for arg in sys.argv:
         if arg == '-p':
