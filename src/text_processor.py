@@ -39,7 +39,7 @@ def get_formatted_file(user_name):
     if not os.path.exists(file_name):
         notFormatted = True
         file_name = 'files/' + user_name + '.txt'
-    file = codecs.open(file_name, 'a')
+    file = codecs.open(file_name, 'r')
     lines = []
     if notFormatted:
         print (file_name)

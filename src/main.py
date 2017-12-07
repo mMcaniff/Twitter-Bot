@@ -8,7 +8,7 @@ def main():
     pull_user_data = False
     generate_tweet = False
     format_content = False
-    starting_word = "The"
+    starting_word = "health care"
     user_name = ""
     file_name = ""
     size = 25

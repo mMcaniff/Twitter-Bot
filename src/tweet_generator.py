@@ -4,8 +4,10 @@ import random
 from nltk import ngrams
 from random import randint
 
-numGrams = 3
-requirement = 2
+ending_symbols = ['.', '!', "?", "..."]
+
+numGrams = 10
+requirement = 1
 
 
 def generate_tweet(user_name, starting_word, size):
@@ -17,17 +19,32 @@ def generate_tweet(user_name, starting_word, size):
     tokens = tokenizer.tokenize(content)
 
     # Get all sequences up to ngram size
-    sequences = get_sequences(tokens)
+    forward_sequences = get_sequences(tokens)
+    tokens.reverse()
+    reverse_sequences = get_sequences(tokens)
 
-    key = (starting_word, )
-    tweet = []
+    key = tuple(starting_word.split())
+    tweet = starting_word.split()
 
-    for i in range(size):
-        word = get_next_word(sequences, key)
+    word = ''
+
+    while word not in ending_symbols:
+        word = get_prev_word(reverse_sequences, key)
+        print word
+        key = get_prev_key(key, word)
+        tweet.insert(0, word)
+
+    tweet.pop(0)
+    word = ''
+    key = tuple(tweet[-3:])
+
+    while word not in ending_symbols:
+        word = get_next_word(forward_sequences, key)
+        print word
         key = get_next_key(key, word)
         tweet.append(word)
 
-    print starting_word + ' ' + ' '.join(tweet)\
+    print ' ' + ' '.join(tweet)\
         .replace(' .', '.')\
         .replace(' ,', ',')\
         .replace(" ' ", "'")\
@@ -68,6 +85,21 @@ def get_next_word(grams, key):
 
     return random.choice(grams[len(key)+1][key])
 
+def get_prev_word(grams, key):
+    for i in range(len(key)):
+        if len(key) + 1 in grams and key in grams[len(key)+1]:
+            if len(grams[len(key)+1][key]) >= requirement:
+                return random.choice(grams[len(key)+1][key])
+
+    # if the length requirement isn't met, shrink the key_id
+        if len(key) > 1:
+            key = key[:-1]
+
+    return random.choice(grams[len(key)+1][key])
+
 
 def get_next_key(key, res):
     return key + (res, )
+
+def get_prev_key(key, res):
+    return (res, ) + key
