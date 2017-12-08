@@ -30,6 +30,8 @@ def generate_tweet(user_name, starting_word, size):
 
     while word not in ending_symbols:
         word = get_prev_word(reverse_sequences, key)
+        if word == None:
+            return "I have nothing to say about this"
         #print word
         key = get_prev_key(key, word)
         tweet.insert(0, word)
@@ -40,11 +42,13 @@ def generate_tweet(user_name, starting_word, size):
 
     while word not in ending_symbols:
         word = get_next_word(forward_sequences, key)
+        if word == None:
+            return "I have nothing to say about this"
         #print word
         key = get_next_key(key, word)
         tweet.append(word)
 
-    print ' ' + ' '.join(tweet)\
+    return ' ' + ' '.join(tweet)\
         .replace(' .', '.')\
         .replace(' ,', ',')\
         .replace(" ' ", "'")\
@@ -82,8 +86,9 @@ def get_next_word(grams, key):
     # if the length requirement isn't met, shrink the key_id
         if len(key) > 1:
             key = key[1:]
-
-    return random.choice(grams[len(key)+1][key])
+    if key in grams[len(key)+1]:
+        return random.choice(grams[len(key)+1][key])
+    return
 
 def get_prev_word(grams, key):
     for i in range(len(key)):
@@ -95,7 +100,9 @@ def get_prev_word(grams, key):
         if len(key) > 1:
             key = key[:-1]
 
-    return random.choice(grams[len(key)+1][key])
+    if key in grams[len(key)+1]:
+        return random.choice(grams[len(key)+1][key])
+    return
 
 
 def get_next_key(key, res):

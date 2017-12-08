@@ -67,9 +67,6 @@ def main():
        if (news_name != ""):
          content = tp.get_first_line(news_name)
          list = tp.find_possible_subject(content)
-         for i in range(len(list)):
-            for j in range(i + 1, len(list)):
-               print "Generated Tweet for " + list[i] + " " + list[j] + ": ", tg.generate_tweet(user_name, list[i] + " " + list[j], size)
          for noun in list:
             print "Generated Tweet for " + noun + ": ", tg.generate_tweet(user_name, noun, size)
        else:
