@@ -30,7 +30,7 @@ def generate_tweet(user_name, starting_word, size):
 
     while word not in ending_symbols:
         word = get_prev_word(reverse_sequences, key)
-        print word
+        #print word
         key = get_prev_key(key, word)
         tweet.insert(0, word)
 
@@ -40,7 +40,7 @@ def generate_tweet(user_name, starting_word, size):
 
     while word not in ending_symbols:
         word = get_next_word(forward_sequences, key)
-        print word
+        #print word
         key = get_next_key(key, word)
         tweet.append(word)
 

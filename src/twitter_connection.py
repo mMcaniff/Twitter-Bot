@@ -12,7 +12,7 @@ class twitter_connection:
 
     def process_and_store(self, file, tweet):
         _tweet = tweet_obj.tweet_obj(tweet)
-        file.write(_tweet.__str__())
+        file.write(_tweet.__str__().replace('\n','') + "\n")
 
     def connect(self, user_name):
         file = codecs.open("files/" + user_name + ".txt", 'a', "utf-8")
@@ -26,7 +26,7 @@ class twitter_connection:
         for page in tweepy.Cursor(api.user_timeline, screen_name=user_name, include_rts=False, count=200).pages(16):
             page_list.append(page)
             n = n+1
-            print n
+            print "Gathering Data " + user_name + ": " + str((n*.0625)*100) + "%"
         for page in page_list:
            for tweet in page:
                self.process_and_store(file, tweet)
