@@ -72,6 +72,8 @@ def main():
                print "Generated Tweet for " + list[i] + " " + list[j] + ": ", tg.generate_tweet(user_name, list[i] + " " + list[j], size)
          for noun in list:
             print "Generated Tweet for " + noun + ": ", tg.generate_tweet(user_name, noun, size)
+       else:
+          print "Generated Tweet for " + noun + ": ", tg.generate_tweet(user_name, starting_word, size)
 
        
 
